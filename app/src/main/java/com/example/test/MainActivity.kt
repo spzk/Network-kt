@@ -8,13 +8,23 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.network.*
+import com.example.network.content.ClassConverter
 import com.example.test.databinding.ActivityMainBinding
 import com.example.test.ui.login.LoginActivity
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.delay
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.InputStream
+import java.net.ContentHandler
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.reflect.KParameter
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.typeOf
 
 private const val TAG = "MainActivity"
@@ -30,21 +40,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btnTest1 -> {
-                Log.d(TAG, "onClick: ")
                 Api.get<CustomResponse>("http://192.168.1.127:3000").onResult {
-                    Log.d(TAG, "onClick: ${it}, ${Looper.getMainLooper().isCurrentThread}")
+//                    val obj = GsonBuilder().create().fromJson(it, CustomResponse::class.java)
+                    Log.d(TAG, "onClick: obj=$it")
+//                    val json = GsonBuilder().create().toJson(obj)
+//                    Log.d(TAG, "onClick: json=$json")
                 }.onFail { code, error ->
-                    Log.e(TAG, "onClick: ${code} / $error")
-//                    binding.textView.text = error
+                    Log.e(TAG, "onClick: $code / $error")
                 }
-
-//                Api.get<CustomResponse>("http://192.168.1.127:3000").setContentHandler {
-//                }.onResult {
-//                    Log.d(TAG, "onClick: $it")
-//                }
-
             }
             R.id.btnTest2 -> {
+                Api.get<DClass>("http://192.168.1.127:3000/list")
+                    .onResult {
+//                        val obj = GsonBuilder().create().fromJson(it, List<TClass>::class.java)
+                        Log.d(TAG, "onClick: obj=$it")
+//                        val json = GsonBuilder().create().toJson(it)
+//                        Log.d(TAG, "onClick: json=$json")
+//                        Log.d(TAG, "onResult: ${it.joinToString()}")
+                    }.onFail{ code, error ->
+                        Log.e(TAG, "onFail: $code / $error")
+                    }
+
+
 //                val param = JSONObject().put("qq", "qq").put("zz", 22)
 //                Api.post<Api.Response>("http://192.168.1.127:3000", param.toString()).onResult {
 //                    Log.d(TAG, "onClick: ${it}, ${Looper.getMainLooper().isCurrentThread}")
@@ -65,17 +82,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             R.id.btnTest3 -> {
-                Api.cancel()
+                val param = ClassConverter.toJSON(TClass(22))
+                Log.d(TAG, "ClassConverter.toJSONString(): $param")
             }
             R.id.btnTest4 -> {
-                DClass::class.constructors.first().parameters.forEach {
-                    Log.d(TAG, "onClick: ${it.type}, ${it.name}")
-                }
+
             }
         }
     }
 
-    data class DClass(val a: Int, val b: String, val c: String = "c"){
+    data class DClass(val a: Int, val b: String, val c: String = "c", var aa: String){
         var ee: String? = null
+    }
+
+    class TClass(val a: Int, val ss:String = "11"){
+        val arr = arrayOf(InnerClass(1), InnerClass((2)))
+
+        override fun toString(): String {
+            return "a:$a, ss:$ss, arr:${arr.joinToString()}"
+        }
+    }
+
+    class InnerClass(val inner1: Int){
+        override fun toString(): String {
+            return "inner1:$inner1"
+        }
     }
 }

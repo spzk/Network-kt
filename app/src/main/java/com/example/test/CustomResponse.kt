@@ -5,7 +5,7 @@ import android.os.Parcelable
 import org.json.JSONObject
 
 
-class CustomResponse{
+data class CustomResponse(val cc: String, val aa: Int, val ff: Float = 1.1f){
 //    var a: String? = null
 //    var b: Int = 0
     var arr: List<Inner>? = null
@@ -15,7 +15,7 @@ class CustomResponse{
     override fun toString(): String {
 //        return "a=$a, b=$b, arr:${arr?.joinToString()}, jsonObj:${jsonObj?.joinToString()}, innerClz:($innerClz)"
         val str = arr?.joinToString()
-        return str?:""
+        return "cc:$cc, aa:$aa, ff:$ff, arr:$str"
     }
 
     class Inner{
