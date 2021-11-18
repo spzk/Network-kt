@@ -1,33 +1,37 @@
 # Network-kt
 
-// 기본
+<h3>기본</h3>
+<pre>
 Api.get<CustomResponse>("http://localhost").onResult {
-}.onFail { code, error ->
+    }.onFail { code, error ->
 }
 
 val data: JSONObject || JSONArray || Other Class...
 Api.post<CustomResponse>("http://localhost", data).onResult {
 }.onFail { code, error ->
 }
-
-//Option
+</pre>
+<h3>Option</h3>
+<pre>
 val option: Request.RequestOption(
   connectTimeout: Int = DEFAULT_CONNECT_TIME_OUT,
   readTimeout: Int = DEFAULT_READ_TIME_OUT,
   useCaches: Boolean = false,
   header: MutableMap<String, MutableList<String>>? = null
-  )
+)
 Api.get<CustomResponse>("http://localhost", option)
+</pre>
 
-
-//Tag 지정 및 취소
+<h3>Tag 지정 및 취소</h3>
+<pre>
 Api.get<CustomResponse>("http://localhost", option).apply { tag = "tag" }
 
 Api.cancel("tag") // "tag" 로 지정된 요청을 취소합니다.
 Api.cancel() // 모든 요청을 취소합니다.
+</pre>
 
-
-//응답 (각각 생략 가능)
+<h3>응답 (각각 생략 가능)</h3>
+<pre>
 .onResult {
  // 메인 쓰레드가 아닙니다.
 }
@@ -36,15 +40,15 @@ onPostResult {
 }
 .onFail { code, error ->
 }
+</pre>
 
-
-//응답 Generic Type
+<h3>응답 Generic Type</h3>
+<pre>
 Api.get<Type> //이때 지정한 type으로 응답을 받게 됩니다.
+</pre>
 
-
-
-
-//ContentHandeler
+<h3>ContentHandeler</h3>
+<pre>
 Api.get<CustomResponse>("url").setContentHandler(object: ContentHandler<CustomResponse> {
     override fun getContent(inputStream: InputStream): CustomResponse {
         TODO("Not yet implemented")
@@ -53,17 +57,20 @@ Api.get<CustomResponse>("url").setContentHandler(object: ContentHandler<CustomRe
 })
 .onResult {
 }
+</pre>
 
-
-//ClassConverter
+<h3>ClassConverter</h3>
+<pre>
+//기본 자료형 또는 JSONObject, JSONArray를 instance에 맞춰 반환
 fun toJSON(instance: Any): Any
-기본 자료형 또는 JSONObject, JSONArray를 instance에 맞춰 반환
 
 fun toJSONObject(instance: Any): JSONObject
 fun toJSONArray(instance: Any): JSONArray
 fun <T : Any> fromJSON(clazz: Class<T>, jsonString: String): T
+</pre>
 
-//예
+<h4>예</h4>
+<pre>
 data class CustomClass(val key: String) 
 
 toJSON(CustomClass("value"))
@@ -74,3 +81,4 @@ class ElementClass(var name: String = "default")
 val list = arrayListOf(ElementClass(), ElementClass("foo"))
 toJSON(list)
 > [{"name":"default"}, {"name":"foo"}]
+</pre>
