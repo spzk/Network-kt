@@ -4,9 +4,6 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.example.network'
-version = "0.1.9"
-
 android {
     compileSdk 31
 
@@ -14,7 +11,7 @@ android {
         minSdk 24
         targetSdk 31
         versionCode 1
-        versionName version
+        versionName '0.1.10'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -50,9 +47,9 @@ afterEvaluate {
                 from components.release
 
                 // You can then customize attributes of the publication as shown below.
-                groupId = group
+                groupId = 'com.example.network'
                 artifactId = 'network'
-                version = version
+                version = '0.1.10'
             }
         }
     }
