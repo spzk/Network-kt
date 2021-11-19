@@ -4,7 +4,10 @@ plugins {
     id 'maven-publish'
 }
 
-ext.lib_version = "0.1.7"
+ext.lib_version = "0.1.8"
+group = 'com.example.network'
+version = "$lib_version"
+
 android {
     compileSdk 31
 
