@@ -2,12 +2,12 @@
 
 <h3>기본</h3>
 <pre>
-Api.get<CustomResponse>("http://localhost").onResult {
+Api.get&lt;CustomResponse>("http://localhost").onResult {
     }.onFail { code, error ->
 }
 
 val data: JSONObject || JSONArray || Other Class...
-Api.post<CustomResponse>("http://localhost", data).onResult {
+Api.post&lt;CustomResponse>("http://localhost", data).onResult {
 }.onFail { code, error ->
 }
 </pre>
@@ -17,14 +17,14 @@ val option: Request.RequestOption(
   connectTimeout: Int = DEFAULT_CONNECT_TIME_OUT,
   readTimeout: Int = DEFAULT_READ_TIME_OUT,
   useCaches: Boolean = false,
-  header: MutableMap<String, MutableList<String>>? = null
+  header: MutableMap&lt;String, MutableList&lt;String>>? = null
 )
-Api.get<CustomResponse>("http://localhost", option)
+Api.get&lt;CustomResponse>("http://localhost", option)
 </pre>
 
 <h3>Tag 지정 및 취소</h3>
 <pre>
-Api.get<CustomResponse>("http://localhost", option).apply { tag = "tag" }
+Api.get&lt;CustomResponse>("http://localhost", option).apply { tag = "tag" }
 
 Api.cancel("tag") // "tag" 로 지정된 요청을 취소합니다.
 Api.cancel() // 모든 요청을 취소합니다.
@@ -44,12 +44,12 @@ onPostResult {
 
 <h3>응답 Generic Type</h3>
 <pre>
-Api.get<Type> //이때 지정한 type으로 응답을 받게 됩니다.
+Api.get&lt;Type> //이때 지정한 type으로 응답을 받게 됩니다.
 </pre>
 
 <h3>ContentHandeler</h3>
 <pre>
-Api.get<CustomResponse>("url").setContentHandler(object: ContentHandler<CustomResponse> {
+Api.get&lt;CustomResponse>("url").setContentHandler(object: ContentHandler&lt;CustomResponse> {
     override fun getContent(inputStream: InputStream): CustomResponse {
         TODO("Not yet implemented")
         // 직접 inputStream read를 구현 할 수 있습니다.
@@ -66,7 +66,7 @@ fun toJSON(instance: Any): Any
 
 fun toJSONObject(instance: Any): JSONObject
 fun toJSONArray(instance: Any): JSONArray
-fun <T : Any> fromJSON(clazz: Class<T>, jsonString: String): T
+fun &lt;T : Any> fromJSON(clazz: Class&lt;T>, jsonString: String): T
 </pre>
 
 <h4>예</h4>
