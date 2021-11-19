@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
 }
 group = 'com.example.network'
-version = '0.1.0'
+version = '0.1.4'
 
 android {
     compileSdk 31
@@ -13,7 +13,7 @@ android {
         minSdk 24
         targetSdk 31
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -38,4 +38,14 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.example.Network'
+            artifactId = Project.getName()
+            version = '0.1.4'
+        }
+    }
 }
