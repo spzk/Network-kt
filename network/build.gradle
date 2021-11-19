@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'maven-publish'
 }
+group = 'com.example.network'
+version = '0.1.11'
 
 android {
     compileSdk 31
@@ -11,7 +13,7 @@ android {
         minSdk 24
         targetSdk 31
         versionCode 1
-        versionName '0.1.10'
+        versionName '0.1.11'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -49,7 +51,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.example.network'
                 artifactId = 'network'
-                version = '0.1.10'
+                version = '0.1.11'
             }
         }
     }
