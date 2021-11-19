@@ -44,7 +44,7 @@ onPostResult {
 
 <h3>응답 Generic Type</h3>
 <pre>
-Api.get<Type> //이때 지정한 type으로 응답을 받게 됩니다.
+Api.get&lt;Type> //이때 지정한 type으로 응답을 받게 됩니다.
 </pre>
 
 <h3>ContentHandeler</h3>
