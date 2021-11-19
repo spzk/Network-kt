@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
 }
 group = 'com.example.network'
-version = '0.1.5'
+version = '0.1.6'
 
 android {
     compileSdk 31
@@ -13,7 +13,7 @@ android {
         minSdk 24
         targetSdk 31
         versionCode 1
-        versionName "0.1.5"
+        versionName "0.1.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -40,12 +40,19 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.example.network'
-            artifactId = Project.getName()
-            version = '0.1.5'
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.example.network'
+                artifactId = 'network'
+                version = '0.1.6'
+            }
         }
     }
 }
