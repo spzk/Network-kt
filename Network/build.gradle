@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'maven-publish'
 }
+group = 'com.example.network'
+version = '0.1.1'
 
 android {
     compileSdk 31
@@ -48,7 +50,7 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.example.network'
-                artifactId = 'final'
+                artifactId = 'release'
                 version = '0.1.1'
             }
             // Creates a Maven publication called “debug”.
@@ -57,7 +59,7 @@ afterEvaluate {
                 from components.debug
 
                 groupId = 'com.example.network'
-                artifactId = 'final-debug'
+                artifactId = 'debug'
                 version = '0.1.1'
             }
         }
