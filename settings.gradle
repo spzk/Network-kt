@@ -8,5 +8,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Test"
-//include ':app'
-include ':Network'
+include ':app'
+include ':network'
