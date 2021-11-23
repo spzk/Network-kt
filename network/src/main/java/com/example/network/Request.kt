@@ -5,6 +5,7 @@ import com.example.network.content.handler.ContentHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
+import java.net.URLConnection
 
 class Request<T : Any> @PublishedApi internal constructor(
     private val clazz: Class<T>,
@@ -26,14 +27,14 @@ class Request<T : Any> @PublishedApi internal constructor(
 
     var data: Any? = null
 
-    fun cancel(){
+    fun cancel() {
         isCanceled = true
     }
 
-    internal fun handleContent(inputStream: InputStream): Any {
-        return mContentHandler?.getContent(inputStream) ?: ClassConverter.fromJSON(
+    internal fun handleContent(conn: URLConnection): Any {
+        return mContentHandler?.getContent(conn.inputStream, conn.contentLengthLong, conn.contentType) ?: ClassConverter.fromJSON(
             clazz,
-            Utils.readText(inputStream)
+            Utils.readText(conn.inputStream)
         )
     }
 

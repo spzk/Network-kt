@@ -6,6 +6,7 @@ import com.example.network.Request.Companion.DEFAULT_READ_TIME_OUT
 import com.example.network.content.ClassConverter
 import com.example.network.content.handler.ContentHandler
 import kotlinx.coroutines.*
+import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.*
@@ -34,6 +35,15 @@ object Api {
         options: Request.RequestOption? = null
     ): Request<T> {
         return Request.create(url, POST, param = data, options = options)
+    }
+
+    inline fun <reified T : Any> request(
+        url: String,
+        method: String,
+        data: Any? = null,
+        options: Request.RequestOption? = null
+    ): Request<T> {
+        return Request.create(url, method = method, param = data, options = options)
     }
 
     fun cancel(tag: String? = null) {
@@ -94,15 +104,14 @@ object Api {
                     }
                 }
 
-                delay(5000)
-                Log.d(TAG, "send: ${Thread.currentThread().name}")
                 if (req.isCanceled) return@runCatching null
                 conn.connect()
                 if (req.isCanceled) return@runCatching null
 
                 val response = when (conn.responseCode) {
                     HttpURLConnection.HTTP_OK -> {
-                        val resultObj = req.handleContent(conn.inputStream)
+                        Log.d(TAG, "send: ${conn.contentLength}")
+                        val resultObj = req.handleContent(conn)
                         Response(conn.responseCode, resultObj)
                     }
                     else -> {
@@ -132,6 +141,16 @@ object Api {
             }
         }
     }
+}
+
+fun <T : Any> Request<T>.setContentHandler(callback: (inputStream: InputStream, contentLength: Long, contentType: String) -> T): Request<T> {
+    mContentHandler = object : ContentHandler<T> {
+        override fun getContent(inputStream: InputStream, contentLength: Long, contentType: String): T {
+            return callback(inputStream, contentLength, contentType)
+        }
+    }
+    Api.send(this)
+    return this
 }
 
 fun <T : Any> Request<T>.setContentHandler(callback: ContentHandler<T>): Request<T> {
