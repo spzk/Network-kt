@@ -1,9 +1,9 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    `maven-publish`
+    id("maven-publish")
 }
-group = "com.example.network"
+group = "com.github.spzk"
 version = "0.1.1"
 
 android {
@@ -44,8 +44,8 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.example.network"
-            artifactId = "network"
+            groupId = "com.github.spzk"
+            artifactId = "network-kt"
             version = "0.1.1"
 
             afterEvaluate {
