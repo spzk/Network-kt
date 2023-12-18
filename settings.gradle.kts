@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Network"
 //include(":app")
-include(":Network")
+include(":network")
