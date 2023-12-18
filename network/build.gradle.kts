@@ -41,14 +41,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.22")
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.github.spzk"
-            artifactId = "network-kt"
-            version = "0.1.1"
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "com.github.spzk"
+                artifactId = "network-kt"
+                version = "0.1.1"
 
-            afterEvaluate {
                 from(components["release"])
             }
         }
