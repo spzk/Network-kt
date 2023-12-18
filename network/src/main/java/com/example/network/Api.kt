@@ -67,7 +67,7 @@ object Api {
             mScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
         }
         req.tag?.let { tag ->
-            mRequestMap.getOrPut(tag, { LinkedBlockingDeque() }).add(req)
+            mRequestMap.getOrPut(tag) { LinkedBlockingDeque() }.add(req)
         }
         mScope!!.launch {
             runCatching {

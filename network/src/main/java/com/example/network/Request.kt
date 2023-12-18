@@ -4,7 +4,6 @@ import com.example.network.content.ClassConverter
 import com.example.network.content.handler.ContentHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.InputStream
 import java.net.URLConnection
 
 class Request<T : Any> @PublishedApi internal constructor(
@@ -32,7 +31,8 @@ class Request<T : Any> @PublishedApi internal constructor(
     }
 
     internal fun handleContent(conn: URLConnection): Any {
-        return mContentHandler?.getContent(conn.inputStream, conn.contentLengthLong, conn.contentType) ?: ClassConverter.fromJSON(
+        return mContentHandler?.getContent(conn.inputStream, conn.contentLengthLong, conn.contentType)
+            ?: ClassConverter.fromJSON(
             clazz,
             Utils.readText(conn.inputStream)
         )

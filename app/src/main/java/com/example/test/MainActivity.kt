@@ -9,6 +9,7 @@ import com.example.network.*
 import com.example.network.content.ClassConverter
 import com.example.network.content.handler.ContentHandler
 import com.example.test.databinding.ActivityMainBinding
+import org.json.JSONObject
 import java.io.InputStream
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -23,9 +24,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btnTest1 -> {
-                Api.get<CustomResponse>("http://localhost").onResult {
-                    Log.d(TAG, "onResult: $it")
-                    Log.d(TAG, "onResult to json: ${ClassConverter.toJSONObject(it)}")
+                Api.get<JSONObject>("http://10.0.2.2:8081").onResult {
+                    Log.d(TAG, "onResult: ${it.getString("a")}")
+//                    Log.d(TAG, "onResult to json: ${ClassConverter.toJSONObject(it)}")
                 }.onFail { code, error ->
                     Log.e(TAG, "onFail: $code / $error")
                 }
@@ -56,7 +57,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         tag = "a"
                     }
                     .setContentHandler(object : ContentHandler<CustomResponse> {
-                        override fun getContent(inputStream: InputStream): CustomResponse {
+                        override fun getContent(
+                            inputStream: InputStream,
+                            contentLength: Long,
+                            contentType: String
+                        ): CustomResponse {
                             TODO("Not yet implemented")
                         }
                     })
